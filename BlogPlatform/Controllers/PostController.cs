@@ -1,6 +1,7 @@
 ﻿using BlogPlatform.Repository;
 using Microsoft.AspNetCore.Mvc;
 using BlogPlatform.Models;
+using System.Transactions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,20 +35,42 @@ namespace BlogPlatform.Controllers
 
         // POST api/<PostController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IActionResult> Post([FromBody] Post post)
         {
+                try
+                {
+                    await postRepository.InsertObject(post);
+                    return CreatedAtAction(nameof(Get), new { ID = post.Id }, post);
+                }catch (Exception ex)
+                {
+                    return StatusCode(500, "Internal Server error " + ex.Message);
+                }
         }
 
         // PUT api/<PostController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<IActionResult> Put(int id, [FromBody] Post post)
         {
+            var getPostById = await postRepository.GetObjectById(id);
+            if(getPostById != null)
+            {
+                getPostById.Id = post.Id; 
+                getPostById.Title = post.Title;
+                getPostById.Content = post.Content;
+                getPostById.CategoryId = post.CategoryId;
+
+                await postRepository.UpdateObject(getPostById);
+                return Ok(getPostById);
+            }
+            return new NoContentResult();
         }
 
         // DELETE api/<PostController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            await postRepository.DeleteObject(id);
+            return new OkResult();
         }
     }
 }

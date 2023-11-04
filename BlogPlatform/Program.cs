@@ -16,6 +16,7 @@ builder.Services.AddDbContext<BlogContext>(o =>
     o.UseNpgsql(builder.Configuration.GetConnectionString("BloggingDb"), o => o.EnableRetryOnFailure(10));
 });
 builder.Services.AddTransient<IRepository<Category>, CategoryRepository>();
+builder.Services.AddTransient<IRepository<Post>, PostRepository>();
 
 var app = builder.Build();
 

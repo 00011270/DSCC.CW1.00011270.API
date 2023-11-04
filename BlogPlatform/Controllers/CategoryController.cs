@@ -1,7 +1,8 @@
 ﻿using BlogPlatform.Models;
 using BlogPlatform.Repository;
 using Microsoft.AspNetCore.Mvc;
-using System.Transactions;
+using Npgsql;
+//using System.Transactions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -39,13 +40,13 @@ namespace BlogPlatform.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Category category)
         {
-
-            using (var scope = new TransactionScope())
+            try
             {
                 await _categoryRepository.InsertObject(category);
-                scope.Complete();
-                scope.Dispose();
                 return CreatedAtAction(nameof(Get), new { ID = category.Id }, category);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
