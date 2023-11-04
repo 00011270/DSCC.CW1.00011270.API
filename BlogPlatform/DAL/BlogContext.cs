@@ -1,7 +1,7 @@
-﻿using BlogApi.Model;
+﻿using BlogPlatform.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlogApi.DAL
+namespace BlogPlatform.DAL
 {
     public class BlogContext : DbContext
     {
