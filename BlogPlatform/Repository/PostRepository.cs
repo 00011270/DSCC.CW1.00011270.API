@@ -41,6 +41,7 @@ namespace BlogPlatform.Repository
             _blogContext.Set<Post>().Update(obj);
             await _blogContext.SaveChangesAsync();
         }
+
     }
 
 }

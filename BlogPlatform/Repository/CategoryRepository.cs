@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BlogPlatform.Repository
 {
-    public class CategoryRepository : IRepository<Category>
+    public class CategoryRepository : ICategoryRepository
     {
 
         private readonly BlogContext blogContext;
@@ -30,6 +30,7 @@ namespace BlogPlatform.Repository
             return await blogContext.Set<Category>().ToListAsync();
         }
 
+
         public async Task InsertObject(Category obj)
         {
             await blogContext.Set<Category>().AddAsync(obj);
@@ -40,6 +41,15 @@ namespace BlogPlatform.Repository
         {
             blogContext.Set<Category>().Update(obj);
             await blogContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Post>> GetPostsByCategoryId(int categoryId)
+        {
+            return await blogContext.Set<Category>()
+                .Where(c => c.Id == categoryId)
+                .Include(c => c.Posts)
+                .SelectMany(c => c.Posts)
+                .ToListAsync();
         }
     }
 }

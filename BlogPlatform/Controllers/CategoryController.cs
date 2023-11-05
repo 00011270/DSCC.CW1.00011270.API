@@ -12,9 +12,9 @@ namespace BlogPlatform.Controllers
     [ApiController]
     public class CategoryController : ControllerBase
     {
-        private readonly IRepository<Category> _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryController(IRepository<Category> categoryRepository)
+        public CategoryController(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
         }
@@ -73,5 +73,13 @@ namespace BlogPlatform.Controllers
             await _categoryRepository.DeleteObject(id);
             return new OkResult();
         }
+
+        [HttpGet("{categoryId}/posts")]
+        public async Task<IActionResult> GetPostsByCategory(int categoryId)
+        {
+            var posts = await _categoryRepository.GetPostsByCategoryId(categoryId);
+            return new OkObjectResult(posts);
+        }
+
     }
 }
