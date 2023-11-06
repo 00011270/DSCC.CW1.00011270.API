@@ -12,7 +12,14 @@ namespace BlogPlatform.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Post>(entity =>
+            {
+                entity.Property(e => e.Id).UseIdentityColumn().HasColumnType("serial");
+            });
+            modelBuilder.Entity<Category>(entity =>
+            {
+                entity.Property(e => e.Id).UseIdentityColumn().HasColumnType("serial");
+            });
         }
 
     }
