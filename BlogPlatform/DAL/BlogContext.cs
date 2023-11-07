@@ -12,6 +12,7 @@ namespace BlogPlatform.DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Defining table constraints for database when migrations happen
             modelBuilder.Entity<Post>(entity =>
             {
                 entity.Property(e => e.Id).UseIdentityColumn().HasColumnType("serial");

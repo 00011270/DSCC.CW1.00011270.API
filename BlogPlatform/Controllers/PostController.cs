@@ -19,6 +19,8 @@ namespace BlogPlatform.Controllers
         }
         // GET: api/<PostController>
         [HttpGet]
+        // Gets the Post List by invoking repository method
+        // And returns the result in HTTP response
         public async Task<IActionResult> Get()
         {
             return new OkObjectResult(await postRepository.GetObjectList());
@@ -26,6 +28,8 @@ namespace BlogPlatform.Controllers
 
         // GET api/<PostController>/5
         [HttpGet("{id}")]
+        // Gets the specific Post by its ID by invoking GetObjectById method from repository
+        // and sends the Http response with the object
         public async Task<IActionResult> Get(int id)
         {
             var post = await postRepository.GetObjectById(id);
@@ -35,6 +39,9 @@ namespace BlogPlatform.Controllers
 
         // POST api/<PostController>
         [HttpPost]
+
+        // Gets the post object from body and sends that object to the repository
+        // and returns the result with CreatedAtAction with response code of 201
         public async Task<IActionResult> Post([FromBody] Post post)
         {
                 try
@@ -43,15 +50,20 @@ namespace BlogPlatform.Controllers
                     return CreatedAtAction(nameof(Get), new { ID = post.Id }, post);
                 }catch (Exception ex)
                 {
+                    // If insertion is incorrect then 500 error is send
                     return StatusCode(500, "Internal Server error " + ex.Message);
                 }
         }
 
         // PUT api/<PostController>/5
         [HttpPut("{id}")]
+        // Gets the id and post object from body of the request header
         public async Task<IActionResult> Put(int id, [FromBody] Post post)
         {
+            // First it gets the post by the given id
             var getPostById = await postRepository.GetObjectById(id);
+
+            // If the post is in the Database then changing the properties of it
             if(getPostById != null)
             {
                 getPostById.Id = post.Id; 
@@ -59,6 +71,7 @@ namespace BlogPlatform.Controllers
                 getPostById.Content = post.Content;
                 getPostById.CategoryId = post.CategoryId;
 
+                // Sending the updated object to database
                 await postRepository.UpdateObject(getPostById);
                 return Ok(getPostById);
             }
@@ -67,6 +80,7 @@ namespace BlogPlatform.Controllers
 
         // DELETE api/<PostController>/5
         [HttpDelete("{id}")]
+        // Gets the id for deleting object
         public async Task<IActionResult> Delete(int id)
         {
             await postRepository.DeleteObject(id);

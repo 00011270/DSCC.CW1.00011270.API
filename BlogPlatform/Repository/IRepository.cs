@@ -1,5 +1,7 @@
 ﻿namespace BlogPlatform.Repository
 {
+
+    // Interface Repository that other Model based Repo classes will implement
     public interface IRepository<T> where T : class
     {
         Task InsertObject(T obj);

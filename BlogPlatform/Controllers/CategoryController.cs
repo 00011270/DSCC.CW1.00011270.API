@@ -21,6 +21,8 @@ namespace BlogPlatform.Controllers
 
         // GET: api/<CategoryController>
         [HttpGet]
+        // Gets the Category List by invoking repository method
+        // And returns the result in HTTP response
         public async Task<IActionResult> Get()
         {
             return new OkObjectResult(await _categoryRepository.GetObjectList());
@@ -28,6 +30,8 @@ namespace BlogPlatform.Controllers
 
         // GET api/<CategoryController>/5
         [HttpGet("{id}")]
+        // Gets the specific Category by its ID by invoking GetObjectById method from repository
+        // and sends the Http response with the object
         public async Task<IActionResult> Get(int id)
         {
             var category = await _categoryRepository.GetObjectById(id);
@@ -38,6 +42,8 @@ namespace BlogPlatform.Controllers
 
         // POST api/<CategoryController>
         [HttpPost]
+        // Gets the category object from body and sends that object to the repository
+        // and returns the result with CreatedAtAction with response code of 201
         public async Task<IActionResult> Post([FromBody] Category category)
         {
             try
@@ -52,14 +58,19 @@ namespace BlogPlatform.Controllers
 
         // PUT api/<CategoryController>/5
         [HttpPut("{id}")]
+        // Gets the id and category object from body of the request header
         public async Task<IActionResult> Put(int id, [FromBody] Category category)
         {
+            // First it gets the category by the given id
             var categoryId = await _categoryRepository.GetObjectById(id);
+
+            // If the category is in the Database then changing the properties of it
             if (category != null)
             {
                 categoryId.Name = category.Name;
                 categoryId.Id = category.Id;
 
+                // Sending the updated object to database
                 await _categoryRepository.UpdateObject(categoryId);
                 return Ok(categoryId);
             }
@@ -68,6 +79,7 @@ namespace BlogPlatform.Controllers
 
         // DELETE api/<CategoryController>/5
         [HttpDelete("{id}")]
+        // Gets the id for deleting object
         public async Task<IActionResult> Delete(int id)
         {
             await _categoryRepository.DeleteObject(id);
@@ -75,6 +87,9 @@ namespace BlogPlatform.Controllers
         }
 
         [HttpGet("{categoryId}/posts")]
+        // Gets the categoryId that was sent by MVC controller
+        // then calls GetPostsByCategoryId method from repository
+        // and gets Posts related to category and sends it
         public async Task<IActionResult> GetPostsByCategory(int categoryId)
         {
             var posts = await _categoryRepository.GetPostsByCategoryId(categoryId);

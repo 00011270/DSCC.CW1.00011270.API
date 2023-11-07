@@ -11,10 +11,14 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+// Adding DbContext to register database context and establishing connection with the Database
 builder.Services.AddDbContext<BlogContext>(o =>
 {
     o.UseNpgsql(builder.Configuration.GetConnectionString("BloggingDb"), o => o.EnableRetryOnFailure(10));
 });
+
+// Registering the Repository Classes as an implementation of interface with DI (dependency inject)
 builder.Services.AddTransient<ICategoryRepository, CategoryRepository>();
 builder.Services.AddTransient<IRepository<Post>, PostRepository>();
 
