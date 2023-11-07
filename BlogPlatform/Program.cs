@@ -3,6 +3,8 @@ using BlogPlatform.Models;
 using BlogPlatform.Repository;
 using Microsoft.EntityFrameworkCore;
 
+// Project made by 00011270
+// For CC module level 6 WIUT
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

@@ -6,6 +6,8 @@ using Npgsql;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
+// Project made by 00011270
+// For CC module level 6 WIUT
 namespace BlogPlatform.Controllers
 {
     [Route("api/[controller]")]

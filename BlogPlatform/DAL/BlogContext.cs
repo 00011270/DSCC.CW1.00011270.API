@@ -1,6 +1,8 @@
 ﻿using BlogPlatform.Models;
 using Microsoft.EntityFrameworkCore;
 
+// Project made by 00011270
+// For CC module level 6 WIUT
 namespace BlogPlatform.DAL
 {
     public class BlogContext : DbContext

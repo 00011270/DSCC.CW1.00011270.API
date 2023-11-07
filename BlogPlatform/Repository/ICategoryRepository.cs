@@ -1,5 +1,7 @@
 ﻿using BlogPlatform.Models;
 
+// Project made by 00011270
+// For CC module level 6 WIUT
 namespace BlogPlatform.Repository
   
 {
